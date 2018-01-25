@@ -84,12 +84,15 @@ class Plugin:
         """Saves all open files"""
         for document in core.workspace().documents():
             if document.qutepart.document().isModified():
-                if not os.access(document.filePath(), os.W_OK):
-                    core.mainWindow().appendMessage(
-                        "Can not save file '%s', because it is not writable!" %
-                        document.filePath(), 4000)
-                else:
-                    document.saveFile()
+                try:
+                    if not os.access(document.filePath(), os.W_OK):
+                        core.mainWindow().appendMessage(
+                            "Can not save file '%s', because it is not writable!" %
+                            document.filePath(), 4000)
+                    else:
+                        document.saveFile()
+                except TypeError:
+                    pass # we don't have a path, so don't do anything
 
     def _onSettingsDialogAboutToExecute(self, dialog):
         """UI settings dialogue is about to execute.
