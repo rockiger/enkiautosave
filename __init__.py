@@ -58,7 +58,7 @@ class Plugin:
         self._qapplication.focusWindowChanged.connect(self._onFocusChanged)
 
         self._qmainwindow = core.mainWindow()
-        self._qmainwindow.destroyed.connect(self._onClose)
+        core.aboutToTerminate.connect(self._onClose)
 
         #self._checkSettings()
 
